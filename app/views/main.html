@@ -1,0 +1,48 @@
+<div class="jumbotron">
+    <label>API URL
+        <input type="text" ng-model="api"/>
+    </label>
+    <button class="btn" ng-click="getDoc(api)">Get Document</button>
+</div>
+
+<div ng-repeat="api in doc.APIs">
+    <div class="panel panel-primary">
+        <div class="panel-heading"><div class="label label-success">{{ api.method }}</div>{{ api.path }}</div>
+        <div class="panel-body">
+            {{ api.description }}
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Parameters</div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Belongs</th>
+                </tr>
+                <tr ng-repeat="parameter in api.parameters">
+                    <td>{{ parameter.name }}</td>
+                    <td>{{ parameter.description }}</td>
+                    <td>{{ parameter.schema.type }}</td>
+                    <td>{{ parameter.belongs }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Response</div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                </tr>
+                <tr ng-repeat="resp in api.responses">
+                    <td>{{ resp.code }}</td>
+                    <td>{{ resp.description }}</td>
+                    <td>{{ resp.schema.type }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
