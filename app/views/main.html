@@ -1,12 +1,17 @@
-<div class="jumbotron">
+<div class="catalog">
     <label>API URL
         <input type="text" ng-model="api"/>
     </label>
     <button class="btn" ng-click="getDoc(api)">Get Document</button>
+
+    <h3>API List</h3>
+    <div ng-repeat="api in doc.APIs">
+        <a ng-click="toApi($index)">{{ api.method }} {{ api.path }}</a>
+    </div>
 </div>
 
-<div ng-repeat="api in doc.APIs">
-    <div class="panel panel-primary">
+<div class="content" ng-repeat="api in doc.APIs">
+    <div id="api_{{$index}}" class="panel panel-primary">
         <div class="panel-heading"><div class="label label-success">{{ api.method }}</div>{{ api.path }}</div>
         <div class="panel-body">
             {{ api.description }}
