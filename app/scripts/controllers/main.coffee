@@ -9,8 +9,6 @@
 ###
 angular.module('bardDocUiApp')
   .controller 'MainCtrl', ($scope, $http, $location, $anchorScroll) ->
-    $scope.api = "http://localhost:8080/api-doc"
-
     $scope.getDoc = (url) ->
       $http.get(url).success (data) ->
         $scope.doc = data
