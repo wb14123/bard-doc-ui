@@ -4,48 +4,79 @@
     </label>
     <button class="btn" ng-click="getDoc(api)">Get Document</button>
 
+    <h3>Models</h3>
+
+    <div ng-repeat="(id, model) in doc.models">
+        <a ng-click="toModel(id)">{{ id }}</a>
+    </div>
+
     <h3>API List</h3>
+
     <div ng-repeat="api in doc.APIs">
         <a ng-click="toApi($index)">{{ api.method }} {{ api.path }}</a>
     </div>
 </div>
 
-<div class="content" ng-repeat="api in doc.APIs">
-    <div id="api_{{$index}}" class="panel panel-primary">
-        <div class="panel-heading"><div class="label label-success">{{ api.method }}</div>{{ api.path }}</div>
-        <div class="panel-body">
-            {{ api.description }}
-        </div>
+<div class="content">
+    <div ng-repeat="api in doc.APIs">
+        <div id="api_{{$index}}" class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="label label-success">{{ api.method }}</div>
+                {{ api.path }}
+            </div>
+            <div class="panel-body">
+                {{ api.description }}
+            </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">Parameters</div>
-            <table class="table table-bordered">
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Type</th>
-                    <th>Belongs</th>
-                </tr>
-                <tr ng-repeat="parameter in api.parameters">
-                    <td>{{ parameter.name }}</td>
-                    <td>{{ parameter.description }}</td>
-                    <td>{{ parameter.schema.type }}</td>
-                    <td>{{ parameter.belongs }}</td>
-                </tr>
-            </table>
+            <div class="panel panel-default">
+                <div class="panel-heading">Parameters</div>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Type</th>
+                        <th>Belongs</th>
+                    </tr>
+                    <tr ng-repeat="parameter in api.parameters">
+                        <td>{{ parameter.name }}</td>
+                        <td>{{ parameter.description }}</td>
+                        <td>{{ parameter.schema.type }}</td>
+                        <td>{{ parameter.belongs }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Response</div>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Code</th>
+                        <th>Description</th>
+                        <th>Type</th>
+                    </tr>
+                    <tr ng-repeat="resp in api.responses">
+                        <td>{{ resp.code }}</td>
+                        <td>{{ resp.description }}</td>
+                        <td ng-if="resp.schema.id"><a ng-click="toModel(resp.schema.id)">{{ resp.schema.id }}</a></td>
+                        <td ng-if="!resp.schema.id">{{ resp.schema.type }}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">Response</div>
+    </div>
+
+    <div ng-repeat="(id, model) in doc.models">
+        <div class="panel panel-success" id="model_{{ id }}">
+            <div class="panel-heading">{{ id }}</div>
             <table class="table table-bordered">
                 <tr>
-                    <th>Code</th>
-                    <th>Description</th>
+                    <th>Field</th>
                     <th>Type</th>
                 </tr>
-                <tr ng-repeat="resp in api.responses">
-                    <td>{{ resp.code }}</td>
-                    <td>{{ resp.description }}</td>
-                    <td>{{ resp.schema.type }}</td>
+                <tr ng-repeat="(field, property) in model.properties">
+                    <td>{{ field }}</td>
+                    <td ng-if="property.$ref"><a ng-click="toModel(property.$ref)">{{ property.$ref }}</a></td>
+                    <td ng-if="!property.$ref">{{ property.type }}</td>
+                </tr>
                 </tr>
             </table>
         </div>

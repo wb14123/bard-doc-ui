@@ -18,3 +18,7 @@ angular.module('bardDocUiApp')
     $scope.toApi = (i) ->
       $location.hash("api_#{i}")
       $anchorScroll()
+
+    $scope.toModel = (id) ->
+      $location.hash("model_#{id}")
+      $anchorScroll()
