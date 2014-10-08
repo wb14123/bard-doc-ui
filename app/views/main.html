@@ -25,7 +25,19 @@
                 {{ api.path }}
             </div>
             <div class="panel-body">
-                {{ api.description }}
+                <p>{{ api.description }}<p>
+
+                <p>
+                    <strong>Consumes</strong>:
+                    <span ng-show="!api.consumes">All</span>
+                    <span ng-show="api.consumes">{{ api.consumes }}</span>
+                </p>
+
+                <p>
+                    <strong>Produces</strong>:
+                    <span ng-show="!api.produces">All</span>
+                    <span ng-show="api.produces">{{ api.produces }}</span>
+                </p>
             </div>
 
             <div class="panel panel-default">
