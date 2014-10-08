@@ -86,8 +86,8 @@
                 </tr>
                 <tr ng-repeat="(field, property) in model.properties">
                     <td>{{ field }}</td>
-                    <td ng-if="property.$ref"><a ng-click="toModel(property.$ref)">{{ property.$ref }}</a></td>
-                    <td ng-if="!property.$ref">{{ property.type }}</td>
+                    <td ng-if="property.id"><a ng-click="toModel(property.id)">{{ property.id }}</a></td>
+                    <td ng-if="!property.id">{{ property.type }}</td>
                 </tr>
                 </tr>
             </table>
