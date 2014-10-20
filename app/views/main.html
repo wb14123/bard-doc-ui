@@ -18,6 +18,7 @@
 </div>
 
 <div class="content">
+    <h2>API</h2>
     <div ng-repeat="api in doc.APIs">
         <div id="api_{{$index}}" class="panel panel-primary">
             <div class="panel-heading">
@@ -48,12 +49,23 @@
                         <th>Description</th>
                         <th>Type</th>
                         <th>Belongs</th>
+                        <th>Limitations</th>
                     </tr>
                     <tr ng-repeat="parameter in api.parameters">
                         <td>{{ parameter.name }}</td>
                         <td>{{ parameter.description }}</td>
                         <td>{{ parameter.schema.type }}</td>
                         <td>{{ parameter.belongs }}</td>
+                        <td>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th ng-repeat="(k, v) in parameter.limitations">{{ k }}</th>
+                                </tr>
+                                <tr>
+                                    <td ng-repeat="(k, v) in parameter.limitations">{{ v }}</td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -76,6 +88,7 @@
         </div>
     </div>
 
+    <h2>Model</h2>
     <div ng-repeat="(id, model) in doc.models">
         <div class="panel panel-success" id="model_{{ id }}">
             <div class="panel-heading">{{ id }}</div>
@@ -88,7 +101,6 @@
                     <td>{{ field }}</td>
                     <td ng-if="property.id"><a ng-click="toModel(property.id)">{{ property.id }}</a></td>
                     <td ng-if="!property.id">{{ property.type }}</td>
-                </tr>
                 </tr>
             </table>
         </div>
