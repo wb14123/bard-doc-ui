@@ -19,90 +19,106 @@
 
 <div class="content">
     <h2>API</h2>
+
     <div ng-repeat="api in doc.APIs">
         <div id="api_{{$index}}" class="panel panel-primary">
             <div class="panel-heading">
                 <div class="label label-success">{{ api.method }}</div>
-                {{ api.path }}
+                <a data-toggle="collapse" href="#api_content_{{$index}}" aria-expanded="false"
+                   aria-controls="api_content_{{$index}}">{{ api.path }}</a>
             </div>
-            <div class="panel-body">
-                <p>{{ api.description }}<p>
+            <div id="api_content_{{$index}}" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <p>{{ api.description }}</p>
 
-                <p>
-                    <strong>Consumes</strong>:
-                    <span ng-show="!api.consumes">All</span>
-                    <span ng-show="api.consumes">{{ api.consumes }}</span>
-                </p>
+                    <p>
+                        <strong>Consumes</strong>:
+                        <span ng-show="!api.consumes">All</span>
+                        <span ng-show="api.consumes">{{ api.consumes }}</span>
+                    </p>
 
-                <p>
-                    <strong>Produces</strong>:
-                    <span ng-show="!api.produces">All</span>
-                    <span ng-show="api.produces">{{ api.produces }}</span>
-                </p>
-            </div>
+                    <p>
+                        <strong>Produces</strong>:
+                        <span ng-show="!api.produces">All</span>
+                        <span ng-show="api.produces">{{ api.produces }}</span>
+                    </p>
+                </div>
 
-            <div class="panel panel-default">
-                <div class="panel-heading">Parameters</div>
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Type</th>
-                        <th>Belongs</th>
-                        <th>Limitations</th>
-                    </tr>
-                    <tr ng-repeat="parameter in api.parameters">
-                        <td>{{ parameter.name }}</td>
-                        <td>{{ parameter.description }}</td>
-                        <td>{{ parameter.schema.type }}</td>
-                        <td>{{ parameter.belongs }}</td>
-                        <td>
-                            <table class="table table-bordered">
-                                <tr>
-                                    <th ng-repeat="(k, v) in parameter.limitations">{{ k }}</th>
-                                </tr>
-                                <tr>
-                                    <td ng-repeat="(k, v) in parameter.limitations">{{ v }}</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">Response</div>
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Code</th>
-                        <th>Description</th>
-                        <th>Type</th>
-                    </tr>
-                    <tr ng-repeat="resp in api.responses">
-                        <td>{{ resp.code }}</td>
-                        <td>{{ resp.description }}</td>
-                        <td ng-if="resp.schema.id"><a ng-click="toModel(resp.schema.id)">{{ resp.schema.id }}</a></td>
-                        <td ng-if="!resp.schema.id">{{ resp.schema.type }}</td>
-                    </tr>
-                </table>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Parameters</div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Type</th>
+                            <th>Belongs</th>
+                            <th>Limitations</th>
+                        </tr>
+                        <tr ng-repeat="parameter in api.parameters">
+                            <td>{{ parameter.name }}</td>
+                            <td>{{ parameter.description }}</td>
+                            <td>{{ parameter.schema.type }}</td>
+                            <td>{{ parameter.belongs }}</td>
+                            <td>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th ng-repeat="(k, v) in parameter.limitations">{{ k }}</th>
+                                    </tr>
+                                    <tr>
+                                        <td ng-repeat="(k, v) in parameter.limitations">{{ v }}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Response</div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Code</th>
+                            <th>Description</th>
+                            <th>Type</th>
+                        </tr>
+                        <tr ng-repeat="resp in api.responses">
+                            <td>{{ resp.code }}</td>
+                            <td>{{ resp.description }}</td>
+                            <td ng-if="resp.schema.id">
+                                <a ng-click="toModel(resp.schema.id)">
+                                    {{resp.schema.id }}
+                                </a>
+                            </td>
+                            <td ng-if="!resp.schema.id">{{ resp.schema.type }}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 
     <h2>Model</h2>
+
     <div ng-repeat="(id, model) in doc.models">
-        <div class="panel panel-success" id="model_{{ id }}">
-            <div class="panel-heading">{{ id }}</div>
-            <table class="table table-bordered">
-                <tr>
-                    <th>Field</th>
-                    <th>Type</th>
-                </tr>
-                <tr ng-repeat="(field, property) in model.properties">
-                    <td>{{ field }}</td>
-                    <td ng-if="property.id"><a ng-click="toModel(property.id)">{{ property.id }}</a></td>
-                    <td ng-if="!property.id">{{ property.type }}</td>
-                </tr>
-            </table>
+        <div class="panel panel-success" id="model_{{model.index}}">
+            <div class="panel-heading">
+                <a data-toggle="collapse" href="#model_content_{{model.index}}" aria-expanded="false"
+                   aria-controls="model_content_{{model.index}}">{{ id }}</a>
+            </div>
+            <div id="model_content_{{model.index}}" class="panel-collapse collapse">
+                <div class="panel-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                    </tr>
+                    <tr ng-repeat="(field, property) in model.properties">
+                        <td>{{ field }}</td>
+                        <td ng-if="property.id"><a ng-click="toModel(property.id)">{{ property.id}}</a></td>
+                        <td ng-if="!property.id">{{ property.type }}</td>
+                    </tr>
+                </table>
+                    </div>
+            </div>
         </div>
     </div>
 </div>

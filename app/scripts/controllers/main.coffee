@@ -7,10 +7,18 @@
  # # MainCtrl
  # Controller of the bardDocUiApp
 ###
+
+models = {}
+
 angular.module('bardDocUiApp')
   .controller 'MainCtrl', ($scope, $http, $location, $anchorScroll) ->
     $scope.getDoc = (url) ->
       $http.get(url).success (data) ->
+        i = 0
+        for id,model of data.models
+          data.models[id].index = i
+          models[id] = i
+          i++
         $scope.doc = data
 
     $scope.toApi = (i) ->
@@ -18,5 +26,5 @@ angular.module('bardDocUiApp')
       $anchorScroll()
 
     $scope.toModel = (id) ->
-      $location.hash("model_#{id}")
+      $location.hash("model_#{models[id]}")
       $anchorScroll()
