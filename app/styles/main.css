@@ -39,16 +39,11 @@ body {
   margin: 30px 0;
 }
 
-.catalog {
-    float: left;
-    width: 30%;
-    position: fixed;
-}
 
 .content {
-    margin-left: 30%;
-    width: 70%;
     min-height: 500px;
+    max-width: 2000px;
+    margin: 0 auto;
 }
 
 .content p + h4 {

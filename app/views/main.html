@@ -1,23 +1,10 @@
-<div class="catalog">
+
+<div class="content">
     <label>API URL
         <input type="text" ng-model="api"/>
     </label>
     <button class="btn" ng-click="getDoc(api)">Get Document</button>
 
-    <h3>Models</h3>
-
-    <div ng-repeat="(id, model) in doc.models">
-        <a ng-click="toModel(id)">{{ id }}</a>
-    </div>
-
-    <h3>API List</h3>
-
-    <div ng-repeat="api in doc.APIs">
-        <a ng-click="toApi($index)">{{ api.method }} {{ api.path }}</a>
-    </div>
-</div>
-
-<div class="content">
     <h2>API</h2>
 
     <div ng-repeat="api in doc.APIs">
