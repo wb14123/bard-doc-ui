@@ -28,3 +28,6 @@ angular.module('bardDocUiApp')
     $scope.toModel = (id) ->
       $location.hash("model_#{models[id]}")
       $anchorScroll()
+
+    $scope.cleanId = (id) ->
+      return id.replace("urn:jsonschema:", "")

@@ -72,7 +72,7 @@
                             <td>{{ resp.description }}</td>
                             <td ng-if="resp.schema.id">
                                 <a ng-click="toModel(resp.schema.id)">
-                                    {{resp.schema.id }}
+                                    {{cleanId(resp.schema.id) }}
                                 </a>
                             </td>
                             <td ng-if="!resp.schema.id">{{ resp.schema.type }}</td>
@@ -89,7 +89,7 @@
         <div class="panel panel-success" id="model_{{model.index}}">
             <div class="panel-heading">
                 <a data-toggle="collapse" href="#model_content_{{model.index}}" aria-expanded="false"
-                   aria-controls="model_content_{{model.index}}">{{ id }}</a>
+                   aria-controls="model_content_{{model.index}}">{{ cleanId(id) }}</a>
             </div>
             <div id="model_content_{{model.index}}" class="panel-collapse collapse">
                 <table class="table table-bordered">
@@ -100,8 +100,9 @@
                     </tr>
                     <tr ng-repeat="(field, property) in model.properties">
                         <td>{{ field }}</td>
-                        <td ng-if="property.id"><a ng-click="toModel(property.id)">{{ property.id}}</a></td>
-                        <td ng-if="!property.id">{{ property.type }}</td>
+                        <td ng-if="property.id"><a ng-click="toModel(property.id)">{{ cleanId(property.id) }}</a></td>
+                        <td ng-if="property.$ref"><a ng-click="toModel(property.$ref)">{{ cleanId(property.$ref) }}</a></td>
+                        <td ng-if="!property.id && !property.$ref">{{ property.type }}</td>
                         <td>{{ property.description }}</td>
                     </tr>
                 </table>
