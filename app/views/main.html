@@ -96,11 +96,13 @@
                     <tr>
                         <th>Field</th>
                         <th>Type</th>
+                        <th>Description</th>
                     </tr>
                     <tr ng-repeat="(field, property) in model.properties">
                         <td>{{ field }}</td>
                         <td ng-if="property.id"><a ng-click="toModel(property.id)">{{ property.id}}</a></td>
                         <td ng-if="!property.id">{{ property.type }}</td>
+                        <td>{{ property.description }}</td>
                     </tr>
                 </table>
             </div>
