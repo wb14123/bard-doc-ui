@@ -12,6 +12,8 @@ models = {}
 
 angular.module('bardDocUiApp')
   .controller 'MainCtrl', ($scope, $http, $location, $anchorScroll) ->
+    $scope.api = "http://crud.example.bardframework.com/api-doc"
+
     $scope.getDoc = (url) ->
       $http.get(url).success (data) ->
         i = 0
@@ -31,3 +33,5 @@ angular.module('bardDocUiApp')
 
     $scope.cleanId = (id) ->
       return id.replace("urn:jsonschema:", "")
+
+    $scope.getDoc($scope.api)
