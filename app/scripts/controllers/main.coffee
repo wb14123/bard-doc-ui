@@ -11,11 +11,13 @@
 models = {}
 
 angular.module('bardDocUiApp')
+  .config ($locationProvider) ->
+    $locationProvider.html5Mode(true)
   .controller 'MainCtrl', ($scope, $http, $location, $anchorScroll) ->
-    $scope.api = "http://crud.example.bardframework.com/api-doc"
+    $scope.api = $location.search().host || "http://crud.example.bardframework.com";
 
     $scope.getDoc = (url) ->
-      $http.get(url).success (data) ->
+      $http.get("#{url}/api-doc").success (data) ->
         i = 0
         for id,model of data.models
           data.models[id].index = i
