@@ -15,14 +15,17 @@
     <div ng-repeat="api in doc.APIs">
         <div id="api_{{$index}}" class="panel panel-primary">
             <div class="panel-heading">
-                <div class="label label-success">{{ api.method }}</div>
                 <a data-toggle="collapse" href="#api_content_{{$index}}" aria-expanded="false"
-                   aria-controls="api_content_{{$index}}">{{ api.path }}</a>
+                   aria-controls="api_content_{{$index}}">
+                    <div class="label label-success">{{ api.method }}</div>
+                    {{ api.path }}
+                </a>
+            </div>
+            <div ng-show="api.description" class="panel-body ">
+                {{ api.description }}
             </div>
             <div id="api_content_{{$index}}" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <p>{{ api.description }}</p>
-
+                <div class="panel-body ">
                     <p>
                         <strong>Consumes</strong>:
                         <span ng-show="!api.consumes">All</span>
