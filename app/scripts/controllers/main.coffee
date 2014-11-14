@@ -36,4 +36,9 @@ angular.module('bardDocUiApp')
     $scope.cleanId = (id) ->
       return id.replace("urn:jsonschema:", "")
 
+    $scope.getId = (property) ->
+      return false unless property?
+      return null unless property?.id || property?.$ref
+      return property?.id || property?.$ref
+
     $scope.getDoc($scope.api)

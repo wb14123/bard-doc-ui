@@ -108,9 +108,20 @@
                     </tr>
                     <tr ng-repeat="(field, property) in model.properties">
                         <td>{{ field }}</td>
-                        <td ng-if="property.id"><a ng-click="toModel(property.id)">{{ cleanId(property.id) }}</a></td>
-                        <td ng-if="property.$ref"><a ng-click="toModel(property.$ref)">{{ cleanId(property.$ref) }}</a></td>
-                        <td ng-if="!property.id && !property.$ref">{{ property.type }}</td>
+                        <td>
+                            <span ng-if="getId(property)"><a ng-click="toModel(getId(property))">{{ cleanId(getId(property)) }}</a></span>
+                            <span ng-if="getId(property) == null">{{ property.type }}</span>
+                            <span ng-if="getId(property.items)">
+                                [<a ng-click="toModel(getId(property.items))">{{ cleanId(getId(property.items)) }}</a>]
+                            </span>
+                            <span ng-if="getId(property.items) == null">[{{ property.items.type }}]</span>
+                            <span ng-if="getId(property.additionalProperties)">
+                                {string -> <a ng-click="toModel(getId(property.additionalProperties))">{{ cleanId(getId(property.additionalProperties)) }}</a>}
+                            </span>
+                            <span ng-if="getId(property.additionalProperties) == null">
+                                {string -> {{ property.additionalProperties.type }}}
+                            </span>
+                        </td>
                         <td>{{ property.description }}</td>
                     </tr>
                 </table>
