@@ -41,4 +41,54 @@ angular.module('bardDocUiApp')
       return null unless property?.id || property?.$ref
       return property?.id || property?.$ref
 
+    $scope.tryApis = []
+
+
+    $scope.toggleTryApi = (index, api) ->
+      $scope.tryApis[index] = {}
+      $scope.tryApis[index].request = {}
+      $scope.tryApis[index].request.header = {}
+      $scope.tryApis[index].request.url= {}
+      $scope.tryApis[index].request.path = {}
+      $scope.tryApis[index].request.form = {}
+      $scope.tryApis[index].request.multipart = {}
+      $scope.tryApis[index].request.method = "GET"
+      $scope.tryApis[index].request.contentType = ""
+      $scope.tryApis[index].request.requestUrl = ""
+      $scope.tryApis[index].tryApi = true
+      if api?
+        $scope.tryApis[index].request.requestUrl = $scope.api + api.path
+        $scope.tryApis[index].request.method = api.method
+        $scope.tryApis[index].tryApi = true
+      else
+        $scope.tryApis[index].tryApi = false
+
+    $scope.sendAPIRequest = (index) ->
+      request = new XMLHttpRequest()
+      request.onload = ->
+        $("#tryResponseBody").text @responseText
+        console.log @responseText
+
+      $scope.request = $scope.tryApis[index].request
+      url = $scope.request.requestUrl
+      first = true
+      # TODO: multipart form, path query
+      for k, v of $scope.request.url
+        if first
+          url += "?#{k}=#{v}"
+          first = false
+        else
+          url += "&#{k}=#{v}"
+      request.open($scope.request.method, url, true)
+      for k, v of $scope.request.header
+        request.setRequestHeader(k, v)
+      request.setRequestHeader("Content-Type", $scope.request.contentType)
+      # TODO: fix form format instead of multpart form
+      formData = null
+      if $scope.request.form != {}
+        formData = new FormData()
+        for k, v of $scope.request.form
+          formData.append(k, v)
+      request.send(formData)
+
     $scope.getDoc($scope.api)

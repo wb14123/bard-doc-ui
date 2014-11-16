@@ -12,7 +12,24 @@
 
     <h2>API</h2>
 
-    <div ng-repeat="api in doc.APIs">
+    <div class="modal fade" id="tryResponse">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">API Response</h4>
+                </div>
+                <div class="modal-body" id="tryResponseBody">
+                    Waiting for response...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div ng-repeat="api in doc.APIs" ng-init="apiIndex = $index">
         <div id="api_{{$index}}" class="panel panel-primary">
             <div class="panel-heading">
                 <a data-toggle="collapse" href="#api_content_{{$index}}" aria-expanded="false"
@@ -37,6 +54,11 @@
                         <span ng-show="!api.produces">All</span>
                         <span ng-show="api.produces">{{ api.produces }}</span>
                     </p>
+
+                    <button ng-hide="tryApis[$index].tryApi" class="btn-success" ng-click="toggleTryApi($index, api)">Try It</button>
+                    <button ng-show="tryApis[$index].tryApi" class="btn-primary" ng-click="sendAPIRequest($index)"
+                            data-toggle="modal" data-target="#tryResponse">Send</button>
+                    <button ng-show="tryApis[$index].tryApi" class="btn-danger" ng-click="toggleTryApi($index)">Cancel</button>
                 </div>
 
                 <div class="panel panel-default">
@@ -44,6 +66,7 @@
                     <table class="table table-bordered">
                         <tr>
                             <th>Name</th>
+                            <th ng-show="tryApis[$index].tryApi">Value</th>
                             <th>Description</th>
                             <th>Type</th>
                             <th>Belongs</th>
@@ -51,6 +74,9 @@
                         </tr>
                         <tr ng-repeat="parameter in api.parameters">
                             <td>{{ parameter.name }}</td>
+                            <td ng-show="tryApis[apiIndex].tryApi">
+                                <input type="text" ng-model="tryApis[apiIndex].request[parameter.belongs][parameter.name]"/>
+                            </td>
                             <td>{{ parameter.description }}</td>
                             <td>{{ parameter.schema.type }}</td>
                             <td>{{ parameter.belongs }}</td>
