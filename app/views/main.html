@@ -78,7 +78,20 @@
                                 <input type="text" ng-model="tryApis[apiIndex].request[parameter.belongs][parameter.name]"/>
                             </td>
                             <td>{{ parameter.description }}</td>
-                            <td>{{ parameter.schema.type }}</td>
+                            <td ng-init="property = parameter.schema">
+                                <span ng-if="getId(property)"><a ng-click="toModel(getId(property))">{{ cleanId(getId(property)) }}</a></span>
+                                <span ng-if="getId(property) == null">{{ property.type }}</span>
+                                <span ng-if="getId(property.items)">
+                                    [<a ng-click="toModel(getId(property.items))">{{ cleanId(getId(property.items)) }}</a>]
+                                </span>
+                                <span ng-if="getId(property.items) == null">[{{ property.items.type }}]</span>
+                                <span ng-if="getId(property.additionalProperties)">
+                                    {string -> <a ng-click="toModel(getId(property.additionalProperties))">{{ cleanId(getId(property.additionalProperties)) }}</a>}
+                                </span>
+                                <span ng-if="getId(property.additionalProperties) == null">
+                                    {string -> {{ property.additionalProperties.type }}}
+                                </span>
+                            </td>
                             <td>{{ parameter.belongs }}</td>
                             <td>
                                 <table class="table table-bordered">
@@ -104,12 +117,22 @@
                         <tr ng-repeat="resp in api.responses">
                             <td>{{ resp.code }}</td>
                             <td>{{ resp.description }}</td>
-                            <td ng-if="resp.schema.id">
-                                <a ng-click="toModel(resp.schema.id)">
-                                    {{cleanId(resp.schema.id) }}
-                                </a>
+
+                            <td ng-init="property = resp.schema">
+                                <span ng-if="getId(property)"><a ng-click="toModel(getId(property))">{{ cleanId(getId(property)) }}</a></span>
+                                <span ng-if="getId(property) == null">{{ property.type }}</span>
+                                <span ng-if="getId(property.items)">
+                                    [<a ng-click="toModel(getId(property.items))">{{ cleanId(getId(property.items)) }}</a>]
+                                </span>
+                                    <span ng-if="getId(property.items) == null">[{{ property.items.type }}]</span>
+                                <span ng-if="getId(property.additionalProperties)">
+                                    {string -> <a ng-click="toModel(getId(property.additionalProperties))">{{ cleanId(getId(property.additionalProperties)) }}</a>}
+                                </span>
+                                <span ng-if="getId(property.additionalProperties) == null">
+                                    {string -> {{ property.additionalProperties.type }}}
+                                </span>
                             </td>
-                            <td ng-if="!resp.schema.id">{{ resp.schema.type }}</td>
+
                         </tr>
                     </table>
                 </div>
