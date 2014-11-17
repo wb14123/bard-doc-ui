@@ -66,29 +66,47 @@ angular.module('bardDocUiApp')
     $scope.sendAPIRequest = (index) ->
       request = new XMLHttpRequest()
       request.onload = ->
-        $("#tryResponseBody").text @responseText
-        console.log @responseText
+        # TODO: what if the response is not json??
+        $("#tryResponseBody").text(JSON.stringify(JSON.parse(@responseText),null,2))
 
       $scope.request = $scope.tryApis[index].request
       url = $scope.request.requestUrl
+
       first = true
-      # TODO: multipart form, path query
       for k, v of $scope.request.url
         if first
           url += "?#{k}=#{v}"
           first = false
         else
           url += "&#{k}=#{v}"
+
+      for k, v of $scope.request.path
+        regex = new RegExp("\{#{k}(:.*)*\}")
+        url = url.replace(regex, v)
+
       request.open($scope.request.method, url, true)
       for k, v of $scope.request.header
         request.setRequestHeader(k, v)
       request.setRequestHeader("Content-Type", $scope.request.contentType)
-      # TODO: fix form format instead of multpart form
-      formData = null
-      if $scope.request.form != {}
-        formData = new FormData()
+
+      params = null
+      if ! $.isEmptyObject($scope.request.form)
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        params = ""
+        first = true
         for k, v of $scope.request.form
+          if first
+            params += "#{encodeURIComponent(k)}=#{encodeURIComponent(v)}"
+            first = false
+          else
+            params += "&#{encodeURIComponent(k)}=#{encodeURIComponent(v)}"
+
+      if ! $.isEmptyObject($scope.request.multipart)
+        formData = new FormData()
+        for k, v of $scope.request.multipart
           formData.append(k, v)
-      request.send(formData)
+        params = formData
+
+      request.send(params)
 
     $scope.getDoc($scope.api)
