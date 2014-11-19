@@ -72,13 +72,14 @@
                             <th>Belongs</th>
                             <th>Limitations</th>
                         </tr>
-                        <tr ng-repeat="parameter in api.parameters">
+                        <tr ng-repeat="parameter in api.parameters" ng-init="property = parameter.schema">
                             <td>{{ parameter.name }}</td>
                             <td ng-show="tryApis[apiIndex].tryApi">
-                                <input type="text" ng-model="tryApis[apiIndex].request[parameter.belongs][parameter.name]"/>
+                                <input ng-hide="isFile(property)" type="text" ng-model="tryApis[apiIndex].request[parameter.belongs][parameter.name]"/>
+                                <input class="file_{{ apiIndex }}" name="{{ parameter.name }}" ng-show="isFile(property)" type="file" />
                             </td>
                             <td>{{ parameter.description }}</td>
-                            <td ng-init="property = parameter.schema">
+                            <td>
                                 <span ng-if="getId(property)"><a ng-click="toModel(getId(property))">{{ cleanId(getId(property)) }}</a></span>
                                 <span ng-if="getId(property) == null">{{ property.type }}</span>
                                 <span ng-if="getId(property.items)">

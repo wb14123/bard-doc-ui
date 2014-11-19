@@ -43,7 +43,6 @@ angular.module('bardDocUiApp')
 
     $scope.tryApis = []
 
-
     $scope.toggleTryApi = (index, api) ->
       $scope.tryApis[index] = {}
       $scope.tryApis[index].request = {}
@@ -88,7 +87,6 @@ angular.module('bardDocUiApp')
       request.open($scope.request.method, url, true)
       for k, v of $scope.request.header
         request.setRequestHeader(k, v)
-      request.setRequestHeader("Content-Type", $scope.request.contentType)
 
       params = null
       if ! $.isEmptyObject($scope.request.form)
@@ -102,12 +100,30 @@ angular.module('bardDocUiApp')
           else
             params += "&#{encodeURIComponent(k)}=#{encodeURIComponent(v)}"
 
+      isForm = false
+
       if ! $.isEmptyObject($scope.request.multipart)
+        isForm = true
         formData = new FormData()
         for k, v of $scope.request.multipart
           formData.append(k, v)
         params = formData
 
+      fileParams = $(".file_#{index}").not('.ng-hide')
+      if fileParams.length > 0
+        isForm = true
+        for f in fileParams
+          formData = params || new FormData()
+          formData.append(f.name, f.files[0], f.files[0].name)
+        params = formData
+
+      if ! isForm
+        request.setRequestHeader("Content-Type", $scope.request.contentType)
       request.send(params)
+
+    $scope.isFile = (property) ->
+      id = $scope.getId(property)
+      return false unless id
+      return id.indexOf("FileItem") > -1
 
     $scope.getDoc($scope.api)
