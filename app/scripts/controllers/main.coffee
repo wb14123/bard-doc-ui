@@ -64,6 +64,7 @@ angular.module('bardDocUiApp')
         $scope.tryApis[index].tryApi = false
 
     $scope.sendAPIRequest = (index) ->
+      $("#tryResponseBody").text("Waiting for response...")
       request = new XMLHttpRequest()
       request.onload = ->
         # TODO: what if the response is not json??
