@@ -14,7 +14,8 @@ angular.module('bardDocUiApp')
   .config ($locationProvider) ->
     $locationProvider.html5Mode(true)
   .controller 'MainCtrl', ($scope, $http, $location, $anchorScroll) ->
-    $scope.api = $location.search().host || "http://crud.example.bardframework.com";
+    $scope.changeAPI = () ->
+      window.location.href = "/?host=#{$scope.api.host}"
 
     $scope.getDoc = (url) ->
       $http.get("#{url}/api-doc").success (data) ->
@@ -24,6 +25,15 @@ angular.module('bardDocUiApp')
           models[id] = i
           i++
         $scope.doc = data
+
+    $scope.api = {}
+    $scope.api.host = $location.search().host
+    $scope.hasApi = false
+    if ! $scope.api.host?
+      $scope.api.host = "http://"
+    else
+      $scope.hasApi = true
+      $scope.getDoc($scope.api.host)
 
     $scope.toApi = (i) ->
       $location.hash("api_#{i}")
@@ -125,5 +135,3 @@ angular.module('bardDocUiApp')
       id = $scope.getId(property)
       return false unless id
       return id.indexOf("FileItem") > -1
-
-    $scope.getDoc($scope.api)

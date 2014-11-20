@@ -46,6 +46,18 @@ body {
     margin: 0 auto;
 }
 
+.hostContent {
+    padding-top: 200px;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.hostContent h2 {
+    margin-bottom: 50px;
+}
+
 .content p + h4 {
   margin-top: 28px;
 }
