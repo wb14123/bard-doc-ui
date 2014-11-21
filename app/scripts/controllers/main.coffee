@@ -66,7 +66,7 @@ angular.module('bardDocUiApp')
       $scope.tryApis[index].request.requestUrl = ""
       $scope.tryApis[index].tryApi = true
       if api?
-        $scope.tryApis[index].request.requestUrl = $scope.api + api.path
+        $scope.tryApis[index].request.requestUrl = $scope.api.host + api.path
         $scope.tryApis[index].request.method = api.method
         $scope.tryApis[index].tryApi = true
       else
