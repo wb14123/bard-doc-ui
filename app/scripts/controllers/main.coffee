@@ -60,6 +60,7 @@ angular.module('bardDocUiApp')
       $scope.tryApis[index].request.url= {}
       $scope.tryApis[index].request.path = {}
       $scope.tryApis[index].request.form = {}
+      $scope.tryApis[index].request.json = {}
       $scope.tryApis[index].request.multipart = {}
       $scope.tryApis[index].request.method = "GET"
       $scope.tryApis[index].request.contentType = ""
@@ -111,6 +112,9 @@ angular.module('bardDocUiApp')
             params += "&#{encodeURIComponent(k)}=#{encodeURIComponent(v)}"
 
       isForm = false
+
+      if ! $.isEmptyObject($scope.request.json)
+        params = JSON.stringify($scope.request.json)
 
       if ! $.isEmptyObject($scope.request.multipart)
         isForm = true
